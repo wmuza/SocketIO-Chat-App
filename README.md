@@ -18,6 +18,8 @@ This app allows one to one chat online and its fast and easy to use. Please note
   * Basics of Socket.IO [Socket.IO](https://socket.io/)
 
   * Javascript ES6 [ES6](https://www.udacity.com/course/es6-javascript-improved--ud356)
+   
+  * Using WebSockets [WebSockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_client_applications)
 
 ### Support or Contact ###
 
