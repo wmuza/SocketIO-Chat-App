@@ -21,6 +21,29 @@ This app allows one to one chat online and its fast and easy to use. Please note
    
   * Using WebSockets [WebSockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_client_applications)
 
+## Installation<a name="installation"></a>
+### Running Locally
+Make sure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
+
+1. Clone or Download the repository
+
+	```
+	$ git clone https://github.com/wmuza/SocketIO-Chat-App.git
+	$ cd chat.io
+	```
+2. Install Dependencies
+
+	```
+	$ npm install
+	```
+3. Start the application
+
+	```
+	$ node index.js
+	```
+Your app should now be running on [localhost:3000](http://localhost:3000/).
+
+  
 ### Support or Contact ###
 
 Having trouble with Pages? Feel free to send me a mail at hello@wilbertz.co.za
