@@ -36,16 +36,12 @@ io.on('connection',  socket => {
 		socket.emit('store_username', username);
 		// echo globally (all clients) that a person has connected
 		socket.broadcast.emit('updatechat', 'Chat Bot', username + ' has connected');
-		// update the list of users in chat, client-side
-		io.emit('updateusers', usernames);
 	});
 
 	// when the user disconnects.. perform this
 	socket.on('disconnect', () => {
 		// remove the username from global usernames list
 		delete usernames[socket.username];
-		// update list of users in chat, client-side
-		io.emit('updateusers', usernames);
 		// echo globally that this client has left
 		socket.broadcast.emit('updatechat', 'Chat Bot', socket.username + ' has left chat');
 	});
