@@ -3,7 +3,7 @@
 ### Socket.IO Real-Time Chat  ###
    July, 2018
 
-![picture alt](https://wmuza.github.io/SocketIO-Chat-App/public/img/chat.PNG "Chat")
+![picture alt](https://wmuza.github.io/SocketIO-Chat-App/public/img/chat-app.PNG "Chat")
    
 ### FEATURING THE FASTEST AND MOST RELIABLE REAL-TIME ENGINE ###
 Real-Time Chat is powered by Socket.IO. is a web application that allows multiple users to have a private and public chat.
