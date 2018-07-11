@@ -7,9 +7,9 @@
       form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
       #data { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
       form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #conversation { list-style-type: none; margin: 0; padding: 0; }
-      #conversation .user { padding: 5px 10px; }
-      #conversation .user:nth-child(odd) { background: #eee; }
+      #chat { list-style-type: none; margin: 0; padding: 0; display: inline-block; width: 93%;}
+      #chat .online-user { padding: 5px 10px; }
+      #chat li:nth-child(odd) { background: #eee; }
 	  #users {float:left;width:130px;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;}
 	</style>
   </head>
@@ -17,10 +17,10 @@
 	
 	<div id="users">
 		<b>Online Users</b>
-		<div class="users"></div>
+		<div class="online-users"></div>
 	</div>
 	
-    <div id="conversation"></div>
+    <ul id="chat"></ul>
 	
     <form action="">
       <input id="data" autocomplete="off" />
@@ -32,69 +32,51 @@
 	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 	
 	<script type="text/javascript">
-	$(function () {
-		const socket = io();
+	$(() => {
+		const socket = io();		
+		let my_username = '';
 		
-		var my_username = '';
-		const sendmsg = id => 
-		{
-			alert(id);
-			alert(my_username);
-			socket.emit('check_user', my_username, id);
-			//socket.emit('msg_user', id, my_username, prompt("Type your message:"));
-		}
+		// when the user sends a private msg to a user id, first find the username
+		const sendmsg = id => socket.emit('check_user', my_username, id);
 		
 		// on connection to server, ask for user's name with an anonymous callback
-		socket.on('connect', function(){
-			// call the server-side function 'adduser' and send one parameter (value of prompt)
-			socket.emit('adduser', prompt("What's your name?"));			
-		});
+		socket.on('connect', () => socket.emit('adduser', prompt("What's your name?")));
+		
 		// listener, whenever the server emits 'msg_user_handle', this updates the chat body
-		socket.on('msg_user_handle', function (username, data) {
-			$('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');			
-		});
+		socket.on('msg_user_handle', (username, data) => { $('#chat').append('<li><b>'+username + ':</b> ' + data + '</li>'); });
 		
 		// listener, whenever the server emits 'msg_user_found'
-		socket.on('msg_user_found', function (username) {
-			//alert(username);
-			socket.emit('msg_user', username, my_username, prompt("Type your message:"));
-		});
+		socket.on('msg_user_found', username => socket.emit('msg_user', username, my_username, prompt("Type your message:")));
+		
 		// listener, whenever the server emits 'updatechat', this updates the chat body
-		socket.on('updatechat', function (username, data) {
-			$('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
-		});
+		socket.on('updatechat',  (username, data) => $('#chat').append('<li><b>'+username + ':</b> ' + data + '</li>'));
 		
 		// listener, whenever the server emits 'store_username', this updates the username
-		socket.on('store_username', function (username) {
-			my_username = username;
-		});	
+		socket.on('store_username', username => my_username = username);
+		
 		// listener, whenever the server emits 'updateusers', this updates the username list
-		socket.on('updateusers', function(data) {
-			//alert(data);
-			//console.log(data);
-			$('.users').empty();
-			$.each(data, function(key, value) {
-				$('.users').append('<div class="user" style="cursor:pointer;" id="'+value+'">' +key+' </div>');
-			});
+		socket.on('updateusers', data => {
+			$('.online-users').empty();
+			$.each(data, (key, value) => $('.online-users').append('<div class="online-user" style="cursor:pointer;" id="'+value+'">' +key+' </div>'));
 			
 			//when an online user is clicked
-			$(".user").click( function() {
+			$(".online-user").click( function() {
 				let id = $(this).attr('id');
 				socket.emit('check_user', my_username, id);
 			});
 		});
 
-		$( document ).ready(function() {
-			// when the client clicks SEND
-			$('form').submit(() => {
-				var message = $('#data').val();
-				if(message == '' || jQuery.trim(message).length == 0)
+		// when the client clicks SEND
+		$('form').submit(() => {
+				let message = $('#data').val();
+				if(message == '' || jQuery.trim(message).length == 0 || message == 'undefined'){
 				return false;
+				} else {
 				$('#data').val('');
 				// tell server to execute 'sendchat' and send along one parameter
 				socket.emit('sendchat', message);
 				return false;
-			});	
+				}
 		});
 	});
 	</script>
