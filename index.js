@@ -1,13 +1,17 @@
 "use strict";
 
-const app = require('express')();
+const express = require('express');
+const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const fs = require('fs');
 
+app.use('/public', express.static('public'))
+
 app.get('/', (req, res) =>  {
-  res.sendFile(__dirname + '/');
+  res.sendFile(__dirname + '/'); 
 });
+
 
 // usernames which are currently connected to the chat
 let usernames = {};
@@ -31,11 +35,12 @@ io.on('connection',  socket => {
 		// add the client's username to the global list
 		usernames[username] = socket.id;
 		// echo to client they've connected
-		socket.emit('updatechat', 'Chat Bot', socket.username + ' you have joined the chat');
+		//socket.emit('updatechat', 'Chat Bot', socket.username + ' you have joined the chat');
+		socket.emit('updatechat', 'Chat Bot', `${socket.username} you have joined the chat`);
 		// echo to client their username
 		socket.emit('store_username', username);
 		// echo globally (all clients) that a person has connected
-		socket.broadcast.emit('updatechat', 'Chat Bot', username + ' has connected');
+		//socket.broadcast.emit('updatechat', 'Chat Bot', `${username} has connected`);
 	});
 
 	// when the user disconnects.. perform this
@@ -43,7 +48,7 @@ io.on('connection',  socket => {
 		// remove the username from global usernames list
 		delete usernames[socket.username];
 		// echo globally that this client has left
-		socket.broadcast.emit('updatechat', 'Chat Bot', socket.username + ' has left chat');
+		//socket.broadcast.emit('updatechat', 'Chat Bot', `${socket.username} has left chat`);
 	});
 	
 	// when the user sends a private msg to a user id, first find the username
