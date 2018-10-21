@@ -1,7 +1,7 @@
 ## Welcome to Private and Public Chat Socket.IO App by Wilbert Muza ##
 
-### Socket.IO Real-Time Chat with Auto Reply ###
-   July, 2018
+### Socket.IO Real-Time Chat with Auto Reply ### 
+   July, 2018 
 
 ![picture alt](https://wmuza.github.io/SocketIO-Chat-App/public/img/chat-app.PNG "Chat")
    
