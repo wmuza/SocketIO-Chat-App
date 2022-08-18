@@ -43,4 +43,4 @@ Your app should now be running on [localhost:3000](http://localhost:3000/).
   
 ### Support or Contact ###
 
-Having trouble with Pages? Feel free to send me a mail at hello@wilbertz.co.za
+Having trouble with Pages? Feel free to post an issue
